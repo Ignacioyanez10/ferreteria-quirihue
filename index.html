@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferretería Quirihue | Construyendo junto a usted</title>
+  <meta name="description" content="Ferretería Quirihue: materiales de construcción y ferretería en Quirihue y Chillán desde 1978. Atención cercana, buenos precios y todo en un solo lugar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;500;600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" sizes="16x16" href="img/favicon-16x16.png">
+  <link rel="icon" sizes="32x32" href="img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+  <link rel="icon" sizes="192x192" href="img/android-chrome-192x192.png">
+  <link rel="icon" sizes="512x512" href="img/android-chrome-512x512.png">
+</head>
+<body>
+
+  <!-- ===== BARRA SUPERIOR ===== -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <a href="#sucursales"><i class="fa-solid fa-location-dot"></i> Sucursales</a>
+      <a href="#contacto"><i class="fa-regular fa-envelope"></i> Contáctanos</a>
+      <a href="https://wa.me/56962044623?text=Hola%2C%20vi%20su%20sitio%20web%20y%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Contacto de Whatsapp</a>
+      <span class="topbar__social">
+        <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== HEADER / NAVEGACIÓN ===== -->
+  <header class="header">
+    <a href="#inicio" class="header__brand">
+      <span class="header__logo"><img src="img/logo.jpg" alt="Ferretería Quirihue - construyendo junto a usted"></span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    <nav class="nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#quienes-somos">Quiénes somos</a>
+      <a href="#catalogo">Nuestro catálogo</a>
+      <a href="#promociones">Promociones</a>
+      <a href="#sucursales">Sucursales</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== HERO / CARRUSEL ===== -->
+    <section class="hero" id="inicio">
+      <div class="slide is-active">
+        <div class="slide__content">
+          <p class="slide__kicker">Desde 1978 en Ñuble</p>
+          <h1>Construyendo <span>junto a usted</span></h1>
+          <p>Todo lo que necesitas en herramientas y materiales de ferretería, en un solo lugar.</p>
+          <a href="#catalogo" class="btn btn--red">Ver catálogo</a>
+        </div>
+        <div class="slide__media slide__media--logo"><img src="img/logo.jpg" alt=""></div>
+      </div>
+      <div class="slide">
+        <div class="slide__content">
+          <p class="slide__kicker">Oferta · Hasta el 31 de octubre</p>
+          <h2>2x Silicona Acrílica <span>Agorex 600</span></h2>
+          <p>Blanca 280 ml a solo <strong>$11.000</strong>. Precio normal $13.000.</p>
+          <a href="#promociones" class="btn btn--red">Ver promociones</a>
+        </div>
+        <div class="slide__media"><img src="img/promos/promo1.jpg" alt="Oferta 2x Silicona Acrílica Agorex 600"></div>
+      </div>
+      <div class="slide">
+        <div class="slide__content">
+          <p class="slide__kicker">Oferta · Hasta agotar stock</p>
+          <h2>No Más Clavos <span>Agorex</span></h2>
+          <p>Original 200 cc a <strong>$4.000 c/u</strong>.</p>
+          <a href="#promociones" class="btn btn--red">Ver promociones</a>
+        </div>
+        <div class="slide__media"><img src="img/promos/promo2.png" alt="Oferta No Más Clavos Agorex"></div>
+      </div>
+      <div class="slide">
+        <div class="slide__content">
+          <p class="slide__kicker">Oferta · Hasta el 31 de octubre</p>
+          <h2>2x Sikaflex <span>11 FC</span></h2>
+          <p>300 ml a <strong>$18.500</strong>. Precio normal $24.000.</p>
+          <a href="#promociones" class="btn btn--red">Ver promociones</a>
+        </div>
+        <div class="slide__media"><img src="img/promos/promo3.jpg" alt="Oferta 2x Sikaflex 11 FC"></div>
+      </div>
+      <button class="hero__arrow hero__arrow--prev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="hero__arrow hero__arrow--next" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="hero__dots"></div>
+    </section>
+
+    <!-- ===== TARJETA DESTACADA (estilo "Tu ferretería más cercana") ===== -->
+    <section class="highlight">
+      <div class="highlight__card">
+        <p class="highlight__sub">Más Variedad / Mejor Atención / Mejores Precios</p>
+        <h2>Tu ferretería de confianza en Quirihue y Chillán</h2>
+        <a href="#sucursales" class="btn btn--outline"><i class="fa-solid fa-store"></i> Ver nuestras sucursales</a>
+      </div>
+    </section>
+
+    <!-- ===== QUIÉNES SOMOS ===== -->
+    <section class="section" id="quienes-somos">
+      <div class="container">
+        <h2 class="title">Quiénes <span>somos</span></h2>
+        <div class="about">
+          <div class="about__text">
+            <p>Somos una empresa de venta de materiales de ferretería fundada en la ciudad de <strong>Quirihue, Región de Ñuble, en el año 1978</strong> por los hermanos Eduardo Irribarra y Jacob Irribarra. Desde el comienzo nuestro énfasis fue establecernos como un referente de confianza en el rubro, destacando por nuestra atención personalizada y cercanía con la clientela.</p>
+            <p>A lo largo de los años, nuestro compromiso inquebrantable con los clientes nos permitió ganarnos su cariño y preferencia. Así, en <strong>1993</strong> realizamos la apertura de nuestro segundo local en la ciudad de <strong>Chillán</strong>, emplazado en una de las zonas más comerciales de la ciudad, cerca del mercado y del terminal de buses rurales “La Merced”.</p>
+            <p>Este hito no solo amplió nuestra cobertura geográfica, sino que también reforzó nuestra capacidad logística y de atención personalizada, operando ambos locales bajo los mismos valores de <strong>honestidad, atención especializada y precios asequibles</strong>.</p>
+          </div>
+          <div class="about__stats">
+            <div class="stat"><i class="fa-solid fa-calendar-check"></i><div><span class="stat__num">1978</span><span class="stat__label">Año de fundación</span></div></div>
+            <div class="stat"><i class="fa-solid fa-store"></i><div><span class="stat__num">2</span><span class="stat__label">Sucursales en Ñuble</span></div></div>
+            <div class="stat"><i class="fa-solid fa-people-roof"></i><div><span class="stat__num">+45</span><span class="stat__label">Años como empresa familiar</span></div></div>
+          </div>
+        </div>
+
+        <div class="mv">
+          <article class="mv__card">
+            <i class="fa-solid fa-bullseye"></i>
+            <h3>Misión</h3>
+            <p>Ofrecer soluciones integrales en el rubro de materiales de construcción y mejora del hogar en las ciudades en que operamos, manteniendo el foco en cuidar el bolsillo del cliente y entregar una atención cercana y especializada imbatible.</p>
+          </article>
+          <article class="mv__card">
+            <i class="fa-solid fa-eye"></i>
+            <h3>Visión</h3>
+            <p>Consolidarnos como la ferretería de referencia en las ciudades donde operamos, siendo queridos y altamente valorados por nuestros clientes y comunidad bajo el lema “Construyendo junto a usted”.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== POR QUÉ ELEGIRNOS ===== -->
+    <section class="section section--gray" id="por-que">
+      <div class="container">
+        <h2 class="title">¿Por qué comprar <span>con nosotros?</span></h2>
+        <p class="lead">Somos un negocio local y familiar, con experiencia desde 1978 en el rubro, enfocados en otorgar un servicio de calidad, buenos precios y cercanía con toda nuestra clientela.</p>
+        <div class="features">
+          <div class="feature"><i class="fa-solid fa-house-chimney"></i><h3>Negocio familiar</h3><p>Una empresa local con raíces en Ñuble y más de cuatro décadas de trayectoria.</p></div>
+          <div class="feature"><i class="fa-solid fa-handshake"></i><h3>Atención cercana</h3><p>Atención personalizada y especializada para ayudarte a elegir lo que realmente necesitas.</p></div>
+          <div class="feature"><i class="fa-solid fa-tags"></i><h3>Buenos precios</h3><p>Nuestro foco es cuidar tu bolsillo con precios asequibles y promociones constantes.</p></div>
+          <div class="feature"><i class="fa-solid fa-location-dot"></i><h3>Todo en un solo lugar</h3><p>Ubicados en el centro comercial de Chillán y Quirihue, con herramientas y materiales para tu obra.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATÁLOGO (BASE) ===== -->
+    <section class="section" id="catalogo">
+      <div class="container">
+        <h2 class="title">Nuestro <span>catálogo</span></h2>
+        <p class="lead">Explora nuestras categorías y cotiza directamente con nosotros.</p>
+        <div class="categories">
+          <a href="#contacto" class="category"><i class="fa-solid fa-hammer"></i>Herramientas manuales</a>
+          <a href="#contacto" class="category"><i class="fa-solid fa-plug"></i>Herramientas eléctricas</a>
+          <a href="#contacto" class="category"><i class="fa-solid fa-paint-roller"></i>Pinturas y accesorios</a>
+          <a href="#contacto" class="category"><i class="fa-solid fa-trowel-bricks"></i>Materiales de construcción</a>
+          <a href="#contacto" class="category"><i class="fa-solid fa-faucet-drip"></i>Gasfitería y baño</a>
+          <a href="#contacto" class="category"><i class="fa-solid fa-lightbulb"></i>Electricidad</a>
+          <a href="#contacto" class="category"><i class="fa-solid fa-fill-drip"></i>Adhesivos y selladores</a>
+          <a href="#contacto" class="category"><i class="fa-solid fa-screwdriver-wrench"></i>Fijaciones</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROMOCIONES ===== -->
+    <section class="section section--gray" id="promociones">
+      <div class="container">
+        <h2 class="title">Promociones <span>disponibles</span></h2>
+        <div class="promos">
+          <figure class="promo"><img src="img/promos/promo1.jpg" alt="Oferta 2x Silicona Acrílica Agorex 600 blanca 280 ml a $11.000, precio normal $13.000, hasta el 31 de octubre" loading="lazy"></figure>
+          <figure class="promo"><img src="img/promos/promo2.png" alt="Oferta No Más Clavos original Agorex 200 cc a $4.000 c/u, hasta agotar stock" loading="lazy"></figure>
+          <figure class="promo"><img src="img/promos/promo3.jpg" alt="Oferta 2x Sikaflex 11 FC 300 ml a $18.500, precio normal $24.000, hasta el 31 de octubre" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ¿NECESITAS COTIZAR? / CONTACTO ===== -->
+    <section class="quote" id="contacto">
+      <div class="quote__inner">
+        <div class="quote__text">
+          <h2><span class="quote__big">¿Necesitas</span><span class="quote__light">cotizar?</span></h2>
+          <p>Escríbenos y te responderemos a la brevedad.</p>
+          <a class="btn btn--outline btn--light" href="https://wa.me/56962044623?text=Hola%2C%20quiero%20cotizar%20los%20siguientes%20productos%3A%20" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Cotizar por WhatsApp</a>
+        </div>
+        <form class="quote__form" id="contact-form">
+          <label>Nombre<input type="text" name="nombre" placeholder="Tu nombre" required></label>
+          <label>Correo electrónico<input type="email" name="email" placeholder="correo@ejemplo.cl" required></label>
+          <label>Teléfono <small>(Opcional)</small><input type="tel" name="telefono" placeholder="+56 9"></label>
+          <label>Sucursal
+            <select name="sucursal">
+              <option>Quirihue</option>
+              <option>Chillán</option>
+            </select>
+          </label>
+          <label>Mensaje<textarea name="mensaje" rows="3" placeholder="¿Qué productos necesitas?" required></textarea></label>
+          <button type="submit" class="btn btn--red">Enviar mensaje</button>
+          <p class="form__status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== MARCAS ===== -->
+    <section class="section" id="marcas">
+      <div class="container">
+        <h2 class="title">Marcas que <span>vendemos</span></h2>
+      </div>
+      <div class="brands">
+        <div class="brands__track">
+          <div class="brand"><img src="img/marcas/marca1.png" alt="Truper"></div>
+          <div class="brand"><img src="img/marcas/marca2.png" alt="Sika"></div>
+          <div class="brand"><img src="img/marcas/marca3.png" alt="Marca"></div>
+          <div class="brand"><img src="img/marcas/marca4.png" alt="Stanley"></div>
+          <div class="brand"><img src="img/marcas/marca5.png" alt="Tajamar"></div>
+          <div class="brand"><img src="img/marcas/marca6.png" alt="Ceresita"></div>
+          <div class="brand"><img src="img/marcas/marca7.png" alt="Alcazar"></div>
+          <div class="brand"><img src="img/marcas/marca8.png" alt="Yunque"></div>
+          <div class="brand"><img src="img/marcas/marca9.png" alt="Dideval"></div>
+          <div class="brand"><img src="img/marcas/marca10.png" alt="Odis"></div>
+          <div class="brand"><img src="img/marcas/marca11.png" alt="Hoffens"></div>
+          <div class="brand"><img src="img/marcas/marca12.png" alt="Inchalam"></div>
+          <div class="brand"><img src="img/marcas/marca13.png" alt="Química Universal"></div>
+          <div class="brand"><img src="img/marcas/marca14.png" alt="Marca"></div>
+          <div class="brand"><img src="img/marcas/marca15.png" alt="Hela"></div>
+          <div class="brand"><img src="img/marcas/marca16.png" alt="Fanaloza"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SUCURSALES (estilo "Nuestros datos" de Lonza/MTS) ===== -->
+    <section class="section section--gray" id="sucursales">
+      <div class="container">
+        <h2 class="title">Nuestras <span>sucursales</span></h2>
+      </div>
+      <div class="data-bar">
+        <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" class="data-bar__item"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a>
+        <a href="https://wa.me/56962044623?text=Hola%2C%20me%20gustar%C3%ADa%20contactarme%20con%20la%20ferreter%C3%ADa." target="_blank" rel="noopener" class="data-bar__item"><i class="fa-brands fa-whatsapp"></i><span>Contacto Whatsapp</span></a>
+        <a href="#contacto" class="data-bar__item"><i class="fa-regular fa-envelope"></i><span>Formulario de contacto</span></a>
+      </div>
+      <div class="container branches">
+        <div class="branches__list" role="tablist">
+          <button class="branch-tab is-active" data-branch="quirihue" role="tab">Ferretería Quirihue<small>Casa Matriz · Quirihue</small></button>
+          <button class="branch-tab" data-branch="chillan" role="tab">Ferretería Quirihue<small>Sucursal · Chillán</small></button>
+        </div>
+
+        <div class="branch is-active" id="branch-quirihue">
+          <div class="branch__info">
+            <h3 class="subtitle"><span>Dirección</span> Tienda</h3>
+            <p>José Joaquín Pérez 429, Quirihue, Región de Ñuble</p>
+            <h3 class="subtitle"><span>Horario de</span> Atención</h3>
+            <table class="hours">
+              <thead><tr><th>Días</th><th>Horario</th></tr></thead>
+              <tbody>
+                <tr><td>Lunes a Viernes</td><td class="placeholder">9:00 - 19:00</td></tr>
+                <tr><td>Sábados</td><td class="placeholder">9:00 - 14:00</td></tr>
+              </tbody>
+            </table>
+            <a class="btn btn--red" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Jos%C3%A9+Joaqu%C3%ADn+P%C3%A9rez+429+Quirihue+Chile"><i class="fa-solid fa-diamond-turn-right"></i> Cómo llegar</a>
+          </div>
+          <iframe class="branch__map" title="Mapa sucursal Quirihue" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=Jos%C3%A9%20Joaqu%C3%ADn%20P%C3%A9rez%20429%2C%20Quirihue%2C%20Chile&z=16&output=embed"></iframe>
+        </div>
+
+        <div class="branch" id="branch-chillan">
+          <div class="branch__info">
+            <h3 class="subtitle"><span>Dirección</span> Tienda</h3>
+            <p>Sargento Aldea 913, Chillán, Región de Ñuble<br><small>Cerca del mercado y del terminal de buses rurales “La Merced”.</small></p>
+            <h3 class="subtitle"><span>Horario de</span> Atención</h3>
+            <table class="hours">
+              <thead><tr><th>Días</th><th>Horario</th></tr></thead>
+              <tbody>
+                <tr><td>Lunes a Viernes</td><td class="placeholder">9:00 - 19:00</td></tr>
+                <tr><td>Sábados</td><td class="placeholder">9:00 - 14:00</td></tr>
+              </tbody>
+            </table>
+            <a class="btn btn--red" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Sargento+Aldea+913+Chill%C3%A1n+Chile"><i class="fa-solid fa-diamond-turn-right"></i> Cómo llegar</a>
+          </div>
+          <iframe class="branch__map" title="Mapa sucursal Chillán" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=Sargento%20Aldea%20913%2C%20Chill%C3%A1n%2C%20Chile&z=16&output=embed"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BANNER ESLOGAN ===== -->
+    <section class="banner">
+      <h2>Construyendo junto a usted<br>desde 1978</h2>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer__card">
+      <div class="footer__col">
+        <span class="footer__logo"><img src="img/logo.jpg" alt="Ferretería Quirihue"></span>
+        <p>Construyendo junto a usted desde 1978.</p>
+        <div class="footer__social">
+          <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/56962044623?text=Hola%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos%20y%20horarios." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h4>Información</h4>  
+        <ul class="footer__links">
+          <li><a href="#quienes-somos">Quiénes somos</a></li>
+          <li><a href="#por-que">Por qué elegirnos</a></li>
+          <li><a href="#promociones">Promociones</a></li>
+          <li><a href="#contacto">Contáctanos</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Categorías</h4>
+        <ul class="footer__links">
+          <li><a href="#catalogo">Herramientas</a></li>
+          <li><a href="#catalogo">Construcción</a></li>
+          <li><a href="#catalogo">Pinturas</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Ferretería Quirihue</h4>
+        <p>José Joaquín Pérez 429, Quirihue.<br>Sargento Aldea 913, Chillán.<br>Región de Ñuble – Chile</p>
+        <p>WhatsApp<br>+56 9 6204 4623</p>
+      </div>
+    </div>
+    <div class="footer__bottom"><span>©<span id="year"></span>. Ferretería Quirihue</span></div>
+  </footer>
+
+  <!-- Botón flotante WhatsApp -->
+  <a class="whatsapp" href="https://wa.me/56962044623?text=Hola%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" aria-label="Cotizar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
