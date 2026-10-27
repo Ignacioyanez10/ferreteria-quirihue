@@ -195,7 +195,12 @@
             </select>
           </label>
           <label>Mensaje<textarea name="mensaje" rows="3" placeholder="¿Qué productos necesitas?" required></textarea></label>
-          <button type="submit" class="btn btn--red">Enviar mensaje</button>
+          <fieldset class="send-via">
+            <legend>¿Cómo quieres enviar tu cotización?</legend>
+            <label class="send-via__opt"><input type="radio" name="via" value="whatsapp" checked><span><i class="fa-brands fa-whatsapp"></i> WhatsApp</span></label>
+            <label class="send-via__opt"><input type="radio" name="via" value="correo"><span><i class="fa-solid fa-envelope"></i> Correo</span></label>
+          </fieldset>
+          <button type="submit" class="btn btn--red" id="quote-submit"><i class="fa-brands fa-whatsapp"></i> Enviar cotización por WhatsApp</button>
           <p class="form__status" aria-live="polite"></p>
         </form>
       </div>

@@ -146,6 +146,15 @@ ul { list-style: none; }
 .quote__form input:focus, .quote__form select:focus, .quote__form textarea:focus { outline: none; background: rgba(255, 255, 255, .2); }
 .quote__form .btn { justify-content: center; margin-top: 8px; }
 .form__status { color: #9ef0b3; font-weight: 600; font-size: 14px; text-align: center; }
+.form__status.is-error { color: #ffb3b3; }
+.send-via { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.send-via legend { grid-column: 1 / -1; font-size: 14px; font-weight: 600; margin-bottom: 6px; padding: 0; }
+.quote__form .send-via__opt { display: block; cursor: pointer; }
+.send-via__opt input { position: absolute; opacity: 0; pointer-events: none; }
+.send-via__opt span { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; border: 2px solid rgba(255,255,255,.35); border-radius: 50px; font-weight: 600; transition: background .2s, border-color .2s; }
+.send-via__opt input:checked + span { background: var(--rojo); border-color: var(--rojo); }
+.send-via__opt input:focus-visible + span { outline: 2px solid var(--blanco); outline-offset: 2px; }
+.quote__form button[disabled] { opacity: .6; cursor: wait; }
 
 /* ===== Marcas (tarjetas blancas con sombra en cinta) ===== */
 .brands { overflow: hidden; padding: 10px 0 30px; }
