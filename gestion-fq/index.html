@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Panel | Ferretería Quirihue</title>
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root { --rojo: #ba1220; --rojo-2: #96101b; --azul: #0b3a9a; --pizarra: #3c4149; --gris: #f4f4f4; --borde: #dcdcdc; --texto: #333; --verde: #25a244; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Open Sans", sans-serif; color: var(--texto); background: var(--gris); min-height: 100vh; }
+    button, input, textarea { font: inherit; }
+    [hidden] { display: none !important; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 8px; padding: 10px 18px; font-weight: 600; cursor: pointer; background: var(--rojo); color: #fff; transition: background .2s; }
+    .btn:hover { background: var(--rojo-2); }
+    .btn:disabled { opacity: .6; cursor: wait; }
+    .btn--gris { background: #fff; color: var(--pizarra); border: 1px solid var(--borde); }
+    .btn--gris:hover { background: #eee; }
+    .btn--link { background: none; color: var(--azul); padding: 0; font-weight: 400; text-decoration: underline; }
+    .btn--link:hover { background: none; }
+    .msg { font-size: 14px; min-height: 20px; }
+    .msg.error { color: var(--rojo); }
+    .msg.ok { color: var(--verde); }
+
+    /* Login */
+    .login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+    .login__box { width: min(380px, 100%); background: #fff; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.1); padding: 32px 28px; display: grid; gap: 14px; }
+    .login__box img { width: 220px; margin: 0 auto 6px; display: block; }
+    .login__box h1 { font-family: Roboto, sans-serif; font-size: 1.2rem; text-align: center; color: var(--pizarra); }
+    label { display: grid; gap: 6px; font-size: 14px; font-weight: 600; }
+    input[type=email], input[type=password], textarea { width: 100%; border: 1px solid var(--borde); border-radius: 8px; padding: 10px 12px; font-weight: 400; }
+    input:focus, textarea:focus { outline: 2px solid var(--azul); border-color: transparent; }
+
+    /* Panel */
+    .top { background: var(--rojo); color: #fff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: 0; z-index: 5; }
+    .top h1 { font-family: Roboto, sans-serif; font-size: 1.1rem; }
+    .top .btn--gris { padding: 7px 14px; }
+    .top__acciones { display: flex; gap: 8px; }
+    a.btn { text-decoration: none; }
+    main { width: min(1000px, 100%); margin: 0 auto; padding: 24px 16px 60px; display: grid; gap: 24px; }
+    .card { background: #fff; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,.06); padding: 22px; }
+    .card h2 { font-family: Roboto, sans-serif; font-size: 1.1rem; color: var(--pizarra); margin-bottom: 14px; }
+    .nueva { display: grid; grid-template-columns: 200px 1fr; gap: 18px; align-items: start; }
+    .drop { aspect-ratio: 1; border: 2px dashed var(--borde); border-radius: 10px; display: grid; place-items: center; text-align: center; color: #888; font-size: 13px; cursor: pointer; overflow: hidden; background: var(--gris); }
+    .drop img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+    .drop i { font-size: 30px; display: block; margin-bottom: 6px; }
+    .nueva__form { display: grid; gap: 12px; }
+    .ayuda { font-size: 12px; color: #888; font-weight: 400; }
+    .lista { display: grid; gap: 12px; }
+    .item { display: grid; grid-template-columns: 90px 1fr auto; gap: 14px; align-items: center; border: 1px solid var(--borde); border-radius: 10px; padding: 10px; }
+    .item.inactiva { opacity: .55; }
+    .item img { width: 90px; height: 90px; object-fit: contain; background: var(--gris); border-radius: 6px; }
+    .item textarea { min-height: 60px; font-size: 14px; resize: vertical; }
+    .item__acciones { display: grid; grid-template-columns: repeat(2, 38px); gap: 6px; }
+    .icono { width: 38px; height: 38px; border: 1px solid var(--borde); background: #fff; border-radius: 8px; cursor: pointer; color: var(--pizarra); }
+    .icono:hover { background: var(--gris); }
+    .icono--rojo { color: var(--rojo); }
+    .icono--verde { color: var(--verde); }
+    .estado { font-size: 12px; font-weight: 700; margin-top: 4px; }
+    .estado.on { color: var(--verde); }
+    .estado.off { color: #999; }
+    .vacio { color: #888; text-align: center; padding: 20px; }
+    .pie { font-size: 12px; color: #888; text-align: center; }
+    .pie code { background: #eee; padding: 2px 6px; border-radius: 4px; user-select: all; }
+    @media (max-width: 640px) {
+      .nueva { grid-template-columns: 1fr; }
+      .drop { max-width: 240px; }
+      .item { grid-template-columns: 70px 1fr; }
+      .item img { width: 70px; height: 70px; }
+      .item__acciones { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); }
+      .icono { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <p class="msg error" id="msg-config" hidden style="padding:16px;text-align:center">Falta configurar Firebase en <b>js/firebase-config.js</b>.</p>
+
+  <!-- ===== LOGIN ===== -->
+  <section class="login" id="vista-login" hidden>
+    <form class="login__box" id="form-login" autocomplete="on">
+      <img src="../img/logo-header.jpg" alt="Ferretería Quirihue">
+      <h1>Panel de administración</h1>
+      <label>Correo<input type="email" name="email" autocomplete="username" required></label>
+      <label>Contraseña<input type="password" name="password" autocomplete="current-password" required></label>
+      <button class="btn" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</button>
+      <button class="btn btn--link" type="button" id="btn-olvide">¿Olvidaste tu contraseña?</button>
+      <p class="msg" id="msg-login" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- ===== PANEL ===== -->
+  <div id="vista-panel" hidden>
+    <header class="top">
+      <h1><i class="fa-solid fa-tags"></i> Promociones</h1>
+      <div class="top__acciones">
+        <a class="btn btn--gris" href="../#promociones" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i> Ver web</a>
+        <button class="btn btn--gris" id="btn-salir"><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+      </div>
+    </header>
+    <main>
+      <section class="card">
+        <h2>Agregar promoción</h2>
+        <form class="nueva" id="form-nueva">
+          <label class="drop" id="drop">
+            <span id="drop-texto"><i class="fa-solid fa-image"></i>Toca para elegir la imagen<br>(JPG, PNG o WEBP)</span>
+            <img id="drop-preview" alt="" hidden>
+            <input type="file" id="input-imagen" accept="image/jpeg,image/png,image/webp" hidden>
+          </label>
+          <div class="nueva__form">
+            <label>Descripción
+              <textarea id="input-desc" maxlength="300" rows="3" placeholder="Ej: 2x Sikaflex 11 FC 300 ml a $18.500, hasta el 30 de noviembre" required></textarea>
+              <span class="ayuda">Se usa para buscadores y lectores de pantalla. Describe lo que dice la imagen.</span>
+            </label>
+            <button class="btn" type="submit" id="btn-guardar"><i class="fa-solid fa-plus"></i> Publicar promoción</button>
+            <p class="msg" id="msg-nueva" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Promociones publicadas</h2>
+        <p class="ayuda" style="margin:-8px 0 14px">Usa las flechas para cambiar el orden, el ojo para mostrar u ocultar, y el basurero para eliminar. Los cambios se ven en la web al recargarla.</p>
+        <div class="lista" id="lista"><p class="vacio">Cargando…</p></div>
+        <div id="importar" hidden style="text-align:center;margin-top:14px">
+          <button class="btn btn--gris" id="btn-importar"><i class="fa-solid fa-file-import"></i> Importar las promociones que hoy están en la web</button>
+        </div>
+        <p class="msg" id="msg-lista" aria-live="polite" style="margin-top:10px"></p>
+      </section>
+
+      <p class="pie">Sesión: <span id="usuario"></span> · UID: <code id="uid"></code></p>
+    </main>
+  </div>
+
+  <script type="module" src="panel.js"></script>
+</body>
+</html>
