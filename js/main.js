@@ -71,8 +71,23 @@ const WHATSAPP_NUMBER = '56962044623';
 // Correo que recibe las cotizaciones (se envía mediante el servicio gratuito FormSubmit.co)
 const EMAIL_DESTINO = 'ignacioyz.perez@gmail.com';
 
-// Asunto del correo
-const EMAIL_ASUNTO = 'Nueva cotización desde la web - Ferretería Quirihue';
+// Asunto del correo que recibes. {nombre} y {sucursal} se reemplazan con los datos del cliente.
+const EMAIL_ASUNTO = 'Nueva cotización de {nombre} - Sucursal {sucursal} | Ferretería Quirihue';
+
+// Diseño del correo que recibes: 'box' (recuadros), 'table' (tabla) o 'basic' (texto simple)
+const EMAIL_DISENO = 'box';
+
+// Respuesta automática que recibe el cliente en su correo al enviar la cotización
+// ({nombre} se reemplaza por su nombre). Deja '' para no enviar respuesta automática.
+const RESPUESTA_AUTOMATICA =
+`Hola {nombre}, gracias por escribirnos.
+
+Recibimos tu solicitud de cotización en Ferretería Quirihue. La revisaremos y te responderemos a este correo a la brevedad.
+
+Si necesitas una respuesta más rápida, escríbenos por WhatsApp al +56 9 6204 4623.
+
+Saludos,
+Ferretería Quirihue - construyendo junto a usted`;
 
 // Plantilla del mensaje (se usa para WhatsApp y para el correo). Puedes editar el texto;
 // {nombre}, {correo}, {telefono}, {sucursal} y {mensaje} se reemplazan con lo que escribe el cliente.
@@ -94,10 +109,53 @@ const BTN_TEXT = {
   whatsapp: '<i class="fa-brands fa-whatsapp"></i> Enviar cotización por WhatsApp',
   correo: '<i class="fa-solid fa-envelope"></i> Enviar cotización por correo'
 };
-const setStatus = (txt, error = false) => {
+// Duración del mensaje de confirmación y del pop-up (milisegundos)
+const DURACION_CONFIRMACION = 5000;
+
+let statusTimer;
+const setStatus = (txt, error = false, autoBorrar = false) => {
+  clearTimeout(statusTimer);
   quoteStatus.textContent = txt;
   quoteStatus.classList.toggle('is-error', error);
+  if (autoBorrar) statusTimer = setTimeout(() => { quoteStatus.textContent = ''; }, DURACION_CONFIRMACION);
 };
+
+// Arma el correo que se envía con FormSubmit (el orden de los campos es el orden en que aparecen en el correo)
+const rellenar = (plantilla, datos) => plantilla.replace(/\{(\w+)\}/g, (_, k) => datos[k] ?? '');
+const cuerpoCorreo = datos => {
+  const ahora = new Date().toLocaleString('es-CL', { dateStyle: 'full', timeStyle: 'short' });
+  const cuerpo = {
+    _subject: rellenar(EMAIL_ASUNTO, datos),
+    _template: EMAIL_DISENO,
+    _replyto: datos.correo,
+    'Cliente': datos.nombre,
+    'Teléfono': datos.telefono,
+    'email': datos.correo,
+    'Sucursal': datos.sucursal,
+    'Mensaje': datos.mensaje,
+    'Fecha de la solicitud': ahora
+  };
+  if (RESPUESTA_AUTOMATICA) cuerpo._autoresponse = rellenar(RESPUESTA_AUTOMATICA, datos);
+  return cuerpo;
+};
+
+// Pop-up de confirmación (se cierra solo a los 5 segundos o con la X / clic fuera / Esc)
+const popup = document.getElementById('quote-popup');
+let popupTimer;
+const cerrarPopup = () => { clearTimeout(popupTimer); popup.classList.remove('is-open'); popup.hidden = true; };
+const mostrarPopup = (titulo, texto) => {
+  popup.querySelector('#quote-popup-title').textContent = titulo;
+  popup.querySelector('#quote-popup-text').textContent = texto;
+  popup.style.setProperty('--toast-ms', `${DURACION_CONFIRMACION}ms`);
+  popup.hidden = false;
+  popup.classList.remove('is-open'); void popup.offsetWidth; popup.classList.add('is-open');
+  popup.querySelector('.toast-modal__close').focus();
+  clearTimeout(popupTimer);
+  popupTimer = setTimeout(cerrarPopup, DURACION_CONFIRMACION);
+};
+popup.querySelector('.toast-modal__close').addEventListener('click', cerrarPopup);
+popup.addEventListener('click', e => { if (e.target === popup) cerrarPopup(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !popup.hidden) cerrarPopup(); });
 
 quoteForm.querySelectorAll('input[name="via"]').forEach(r =>
   r.addEventListener('change', () => { quoteBtn.innerHTML = BTN_TEXT[quoteForm.via.value]; setStatus(''); })
@@ -117,7 +175,7 @@ quoteForm.addEventListener('submit', async e => {
 
   if (f.via.value === 'whatsapp') {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
-    setStatus('Te estamos redirigiendo a WhatsApp para enviar tu cotización…');
+    setStatus('Te estamos redirigiendo a WhatsApp para enviar tu cotización…', false, true);
     f.reset();
     quoteBtn.innerHTML = BTN_TEXT.whatsapp;
     return;
@@ -130,20 +188,12 @@ quoteForm.addEventListener('submit', async e => {
     const res = await fetch(`https://formsubmit.co/ajax/${EMAIL_DESTINO}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: EMAIL_ASUNTO,
-        _template: 'table',
-        _replyto: datos.correo,
-        Nombre: datos.nombre,
-        Correo: datos.correo,
-        'Teléfono': datos.telefono,
-        Sucursal: datos.sucursal,
-        'Productos / mensaje': datos.mensaje
-      })
+      body: JSON.stringify(cuerpoCorreo(datos))
     });
     const json = await res.json().catch(() => ({}));
     if (!res.ok || String(json.success) === 'false') throw new Error(json.message || res.status);
-    setStatus('¡Gracias! Recibimos tu cotización y te responderemos a tu correo pronto.');
+    setStatus('¡Gracias! Recibimos tu cotización y te responderemos a tu correo pronto.', false, true);
+    mostrarPopup('¡Cotización enviada!', `Gracias ${datos.nombre}, recibimos tu cotización y te responderemos a ${datos.correo} a la brevedad.`);
     f.reset();
     quoteBtn.innerHTML = BTN_TEXT.whatsapp;
   } catch (err) {

@@ -9,9 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;500;600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=5">
   <link rel="icon" sizes="16x16" href="img/favicon-16x16.png">
   <link rel="icon" sizes="32x32" href="img/favicon-32x32.png">
+  <link rel="icon" sizes="48x48" href="img/favicon-48x48.png">
+  <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
   <link rel="icon" sizes="192x192" href="img/android-chrome-192x192.png">
   <link rel="icon" sizes="512x512" href="img/android-chrome-512x512.png">
@@ -333,6 +335,17 @@
   <!-- Botón flotante WhatsApp -->
   <a class="whatsapp" href="https://wa.me/56962044623?text=Hola%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" aria-label="Cotizar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 
-  <script src="js/main.js?v=3"></script>
+  <!-- ===== Pop-up de confirmación de cotización ===== -->
+  <div class="toast-modal" id="quote-popup" role="dialog" aria-modal="true" aria-labelledby="quote-popup-title" hidden>
+    <div class="toast-modal__box">
+      <button type="button" class="toast-modal__close" aria-label="Cerrar">&times;</button>
+      <div class="toast-modal__icon"><i class="fa-solid fa-circle-check"></i></div>
+      <h3 id="quote-popup-title">¡Cotización enviada!</h3>
+      <p id="quote-popup-text">Recibimos tu cotización y te responderemos a tu correo pronto.</p>
+      <span class="toast-modal__bar"></span>
+    </div>
+  </div>
+
+  <script src="js/main.js?v=5"></script>
 </body>
 </html>
