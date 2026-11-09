@@ -600,10 +600,115 @@ ul {
 }
 
 /* ===== Promociones ===== */
+/* Carrusel deslizable: 3 tarjetas en computador, 2 en tablet, 1 en celular */
+.promos-carousel {
+  position: relative;
+  --promo-gap: 26px;
+  --promo-visibles: 3;
+}
+
 .promos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--promo-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  padding: 10px 2px 18px;
+  scrollbar-width: none;
+}
+
+.promos::-webkit-scrollbar { display: none; }
+
+.promos > .promo {
+  flex: 0 0 calc((100% - var(--promo-gap) * (var(--promo-visibles) - 1)) / var(--promo-visibles));
+  scroll-snap-align: start;
+  scroll-snap-stop: always; /* al deslizar o tocar el botón se detiene en cada tarjeta */
+}
+
+.promos-carousel__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--rojo-logo);
+  color: var(--blanco);
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+  transition: background .2s, opacity .2s, transform .2s;
+}
+
+.promos-carousel__btn:hover { background: var(--rojo-oscuro); }
+.promos-carousel__btn:disabled { opacity: .35; cursor: default; box-shadow: none; }
+.promos-carousel__btn:disabled:hover { background: var(--rojo-logo); }
+.promos-carousel__btn--prev { left: -22px; }
+.promos-carousel__btn--next { right: -22px; }
+
+.promos-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.promos-carousel__dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #c9c9c9;
+  cursor: pointer;
+  transition: background .2s, width .2s;
+}
+
+.promos-carousel__dots button.is-active {
+  width: 26px;
+  border-radius: 5px;
+  background: var(--rojo-logo);
+}
+
+@media (max-width: 960px) {
+  .promos-carousel { --promo-visibles: 2; --promo-gap: 18px; }
+}
+
+@media (max-width: 640px) {
+  .promos-carousel { --promo-visibles: 1.15; --promo-gap: 14px; }
+  .promos-carousel__btn { width: 40px; height: 40px; font-size: 15px; }
+  .promos-carousel__btn--prev { left: -6px; }
+  .promos-carousel__btn--next { right: -6px; }
+}
+
+/* Todas las tarjetas miden lo mismo (cuadradas). La imagen se ve completa, sin recortes
+   ni deformación; si no es cuadrada, el espacio sobrante se rellena con la misma imagen
+   difuminada de fondo. */
+.promos > .promo {
+  position: relative;
+  aspect-ratio: 1 / 1;
+}
+
+.promo img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.promo img.promo__fondo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  object-fit: cover;
+  filter: blur(18px) brightness(.85);
+  transform: scale(1.2);
 }
 
 .promo {
@@ -1264,8 +1369,7 @@ ul {
     display: none;
   }
 
-  .mv,
-  .promos {
+  .mv {
     grid-template-columns: 1fr;
   }
 
@@ -1334,4 +1438,4 @@ ul {
 @keyframes toastBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 
 /* Mensaje cuando no hay promociones activas (panel admin) */
-.promos__vacio { grid-column: 1 / -1; text-align: center; color: var(--gris-texto); padding: 30px 16px; }
+.promos__vacio { flex: 1 0 100%; text-align: center; color: var(--gris-texto); padding: 30px 16px; }

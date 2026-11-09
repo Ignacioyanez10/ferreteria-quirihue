@@ -1,5 +1,5 @@
 // ===== Panel de administración de promociones =====
-import { firebaseConfig, FIREBASE_SDK, firebaseListo } from '../js/firebase-config.js';
+import { firebaseConfig, FIREBASE_SDK, firebaseListo, DATABASE_ID } from '../js/firebase-config.js';
 
 const $ = sel => document.querySelector(sel);
 const msg = (el, texto, tipo = '') => { el.textContent = texto; el.className = `msg ${tipo}`; };
@@ -22,7 +22,7 @@ const {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 auth.languageCode = 'es';
-const db = getFirestore(app);
+const db = getFirestore(app, DATABASE_ID);
 const promosRef = collection(db, 'promos');
 
 // La sesión se cierra al cerrar la pestaña del navegador
@@ -33,11 +33,21 @@ const ERRORES = {
   'auth/invalid-credential': 'Correo o contraseña incorrectos.',
   'auth/invalid-email': 'El correo no es válido.',
   'auth/user-disabled': 'Esta cuenta está deshabilitada.',
+  'auth/operation-not-allowed': 'El inicio de sesión con correo y contraseña no está habilitado en Firebase (Authentication > Método de acceso).',
+  'auth/user-not-found': 'No existe una cuenta con ese correo.',
+  'auth/wrong-password': 'Contraseña incorrecta.',
   'auth/too-many-requests': 'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.',
   'auth/network-request-failed': 'Sin conexión a internet.',
   'permission-denied': 'Esta cuenta no tiene permiso para modificar promociones. Revisa que su UID esté en las reglas de Firestore.'
 };
-const textoError = e => ERRORES[e?.code] || `Ocurrió un error (${e?.code || e?.message || e}).`;
+const textoError = e => ERRORES[e?.code] || (e?.message === SIN_RESPUESTA ? SIN_RESPUESTA : `Ocurrió un error (${e?.code || e?.message || e}).`);
+
+// Si Firebase no responde en 10 segundos, se muestra un error en vez de quedar cargando
+const SIN_RESPUESTA = 'Firebase no responde. Revisa que no haya un bloqueador de anuncios activo en esta página y que el projectId de js/firebase-config.js sea correcto.';
+const conLimite = (promesa, ms = 10000) => Promise.race([
+  promesa,
+  new Promise((_, rej) => setTimeout(() => rej(new Error(SIN_RESPUESTA)), ms))
+]);
 
 // ---------- Login / sesión ----------
 onAuthStateChanged(auth, user => {
@@ -137,13 +147,13 @@ $('#form-nueva').addEventListener('submit', async e => {
   msg($('#msg-nueva'), 'Publicando…');
   try {
     const primero = promos[0]?.orden ?? 0;
-    await addDoc(promosRef, {
+    await conLimite(addDoc(promosRef, {
       imagen: imagenNueva,
       descripcion: $('#input-desc').value.trim().slice(0, 300),
       orden: primero - 1, // las nuevas quedan primero
       activa: true,
       actualizada: serverTimestamp()
-    });
+    }));
     e.target.reset();
     imagenNueva = null;
     $('#drop-preview').hidden = true;
@@ -162,10 +172,11 @@ let promos = [];
 
 async function cargarLista() {
   try {
-    const snap = await getDocs(query(promosRef, orderBy('orden')));
+    const snap = await conLimite(getDocs(query(promosRef, orderBy('orden'))));
     promos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     pintarLista();
   } catch (err) {
+    $('#lista').innerHTML = '';
     msg($('#msg-lista'), textoError(err), 'error');
   }
 }

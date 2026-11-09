@@ -8,18 +8,13 @@ navToggle.addEventListener('click', () => {
 nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('is-open')));
 
 // ===== Carrusel principal =====
-const slides = document.querySelectorAll('.slide');
+// Se puede reiniciar con window.reiniciarCarrusel() cuando se agregan diapositivas
+// (lo usa js/promos.js para mostrar las promociones del panel de administración).
 const dotsBox = document.querySelector('.hero__dots');
+let slides = [];
+let dots = [];
 let current = 0;
 let timer;
-
-slides.forEach((_, i) => {
-  const dot = document.createElement('button');
-  dot.setAttribute('aria-label', `Ir a la diapositiva ${i + 1}`);
-  dot.addEventListener('click', () => { goTo(i); restart(); });
-  dotsBox.appendChild(dot);
-});
-const dots = dotsBox.querySelectorAll('button');
 
 function goTo(i) {
   slides[current].classList.remove('is-active');
@@ -32,10 +27,98 @@ function restart() {
   clearInterval(timer);
   timer = setInterval(() => goTo(current + 1), 6000);
 }
+function initCarrusel() {
+  slides = [...document.querySelectorAll('.hero .slide')];
+  dotsBox.replaceChildren();
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('is-active', i === 0);
+    const dot = document.createElement('button');
+    dot.setAttribute('aria-label', `Ir a la diapositiva ${i + 1}`);
+    dot.addEventListener('click', () => { goTo(i); restart(); });
+    dotsBox.appendChild(dot);
+  });
+  dots = [...dotsBox.children];
+  current = 0;
+  dots[0].classList.add('is-active');
+  restart();
+}
 document.querySelector('.hero__arrow--prev').addEventListener('click', () => { goTo(current - 1); restart(); });
 document.querySelector('.hero__arrow--next').addEventListener('click', () => { goTo(current + 1); restart(); });
-dots[0].classList.add('is-active');
-restart();
+initCarrusel();
+window.reiniciarCarrusel = initCarrusel;
+
+// ===== Carrusel de "Promociones disponibles" (deslizable + botones + puntos) =====
+(() => {
+  const carrusel = document.querySelector('.promos-carousel');
+  if (!carrusel) return;
+  const pista = carrusel.querySelector('.promos');
+  const prev = carrusel.querySelector('.promos-carousel__btn--prev');
+  const next = carrusel.querySelector('.promos-carousel__btn--next');
+  const puntos = carrusel.querySelector('.promos-carousel__dots');
+
+  const tarjetas = () => [...pista.querySelectorAll('.promo')];
+  const paso = () => {
+    const t = tarjetas();
+    return t.length > 1 ? t[1].offsetLeft - t[0].offsetLeft : pista.clientWidth;
+  };
+  const paginas = () => {
+    const t = tarjetas();
+    if (!t.length) return 0;
+    const visibles = Math.max(1, Math.round(pista.clientWidth / paso()));
+    return Math.max(1, t.length - visibles + 1);
+  };
+
+  // Fondo difuminado para imágenes que no son cuadradas (rellena la tarjeta sin recortar la imagen)
+  function ponerFondos() {
+    tarjetas().forEach(f => {
+      const img = f.querySelector('img:not(.promo__fondo)');
+      if (!img || f.querySelector('.promo__fondo')) return;
+      const fondo = img.cloneNode();
+      fondo.className = 'promo__fondo';
+      fondo.alt = '';
+      fondo.setAttribute('aria-hidden', 'true');
+      f.prepend(fondo);
+    });
+  }
+
+  function actualizar() {
+    const max = pista.scrollWidth - pista.clientWidth - 2;
+    prev.disabled = pista.scrollLeft <= 2;
+    next.disabled = pista.scrollLeft >= max;
+    const total = paginas();
+    if (puntos.children.length !== total) {
+      puntos.replaceChildren(...Array.from({ length: total }, (_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.tabIndex = -1;
+        b.addEventListener('click', () => irA(i));
+        return b;
+      }));
+    }
+    const actual = Math.min(total - 1, Math.round(pista.scrollLeft / paso()));
+    [...puntos.children].forEach((b, i) => b.classList.toggle('is-active', i === actual));
+    puntos.hidden = total <= 1;
+  }
+
+  // Los botones avanzan exactamente una tarjeta (se calcula la tarjeta de destino en vez de
+  // desplazar "un poco", porque algunos celulares se pasaban de largo hasta la última)
+  const indiceActual = () => Math.round(pista.scrollLeft / paso());
+  function irA(indice) {
+    const t = tarjetas();
+    if (!t.length) return;
+    const destino = Math.max(0, Math.min(indice, t.length - 1));
+    pista.scrollTo({ left: t[destino].offsetLeft - t[0].offsetLeft, behavior: 'smooth' });
+  }
+  prev.addEventListener('click', () => irA(indiceActual() - 1));
+  next.addEventListener('click', () => irA(indiceActual() + 1));
+  pista.addEventListener('scroll', () => requestAnimationFrame(actualizar), { passive: true });
+  window.addEventListener('resize', actualizar);
+  // Se actualiza cuando js/promos.js carga las promociones del panel o cuando cargan las imágenes
+  new MutationObserver(() => { pista.scrollLeft = 0; ponerFondos(); actualizar(); }).observe(pista, { childList: true });
+  pista.addEventListener('load', actualizar, true);
+  ponerFondos();
+  actualizar();
+})();
 
 // ===== Cinta de marcas: duplicar logos para que el desplazamiento sea continuo =====
 const track = document.querySelector('.brands__track');

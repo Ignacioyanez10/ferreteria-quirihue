@@ -5,9 +5,12 @@
 export const firebaseConfig = {
   apiKey: 'AIzaSyAmZFf3Atl7JLvkNxMcIo0fqG2KEjbyYoU',
   authDomain: 'ferreteria-quirihue.firebaseapp.com',
-  projectId: 'ferreteria-quirihu',
+  projectId: 'ferreteria-quirihue',
   appId: '1:668589227808:web:8d19c4951958fd1c332145'
 };
+
+// Nombre (ID) de la base de datos de Firestore, tal como aparece en la consola
+export const DATABASE_ID = 'default';
 
 export const FIREBASE_SDK = 'https://www.gstatic.com/firebasejs/10.12.2';
 

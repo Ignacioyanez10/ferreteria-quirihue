@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;500;600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=12">
   <link rel="icon" sizes="16x16" href="img/favicon-16x16.png">
   <link rel="icon" sizes="32x32" href="img/favicon-32x32.png">
   <link rel="icon" sizes="48x48" href="img/favicon-48x48.png">
@@ -25,7 +25,7 @@
     <div class="topbar__inner">
       <a href="#sucursales"><i class="fa-solid fa-location-dot"></i> Sucursales</a>
       <a href="#contacto"><i class="fa-regular fa-envelope"></i> Contáctanos</a>
-      <a href="https://wa.me/56962044623?text=Hola%2C%20vi%20su%20sitio%20web%20y%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Contacto de Whatsapp</a>
+      <a href="https://wa.me/56962044623?text=Hola%20Buenos%20dias%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Contacto de Whatsapp</a>
       <span class="topbar__social">
         <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -170,10 +170,15 @@
     <section class="section section--gray" id="promociones">
       <div class="container">
         <h2 class="title">Promociones <span>disponibles</span></h2>
-        <div class="promos">
-          <figure class="promo"><img src="img/promos/promo1.jpg" alt="Oferta 2x Silicona Acrílica Agorex 600 blanca 280 ml a $11.000, precio normal $13.000, hasta el 31 de octubre" loading="lazy"></figure>
-          <figure class="promo"><img src="img/promos/promo2.png" alt="Oferta No Más Clavos original Agorex 200 cc a $4.000 c/u, hasta agotar stock" loading="lazy"></figure>
-          <figure class="promo"><img src="img/promos/promo3.jpg" alt="Oferta 2x Sikaflex 11 FC 300 ml a $18.500, precio normal $24.000, hasta el 31 de octubre" loading="lazy"></figure>
+        <div class="promos-carousel" aria-roledescription="carrusel" aria-label="Promociones disponibles">
+          <button type="button" class="promos-carousel__btn promos-carousel__btn--prev" aria-label="Promociones anteriores"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="promos">
+            <figure class="promo"><img src="img/promos/promo1.jpg" alt="Oferta 2x Silicona Acrílica Agorex 600 blanca 280 ml a $11.000, precio normal $13.000, hasta el 31 de octubre" loading="lazy"></figure>
+            <figure class="promo"><img src="img/promos/promo2.png" alt="Oferta No Más Clavos original Agorex 200 cc a $4.000 c/u, hasta agotar stock" loading="lazy"></figure>
+            <figure class="promo"><img src="img/promos/promo3.jpg" alt="Oferta 2x Sikaflex 11 FC 300 ml a $18.500, precio normal $24.000, hasta el 31 de octubre" loading="lazy"></figure>
+          </div>
+          <button type="button" class="promos-carousel__btn promos-carousel__btn--next" aria-label="Promociones siguientes"><i class="fa-solid fa-chevron-right"></i></button>
+          <div class="promos-carousel__dots" aria-hidden="true"></div>
         </div>
       </div>
     </section>
@@ -184,7 +189,7 @@
         <div class="quote__text">
           <h2><span class="quote__big">¿Necesitas</span><span class="quote__light">cotizar?</span></h2>
           <p>Escríbenos y te responderemos a la brevedad.</p>
-          <a class="btn btn--outline btn--light" href="https://wa.me/56962044623?text=Hola%2C%20quiero%20cotizar%20los%20siguientes%20productos%3A%20" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Cotizar por WhatsApp</a>
+          <a class="btn btn--outline btn--light" href="https://wa.me/56962044623?text=Hola%20Buenos%20dias%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Cotizar por WhatsApp</a>
         </div>
         <form class="quote__form" id="contact-form">
           <label>Nombre<input type="text" name="nombre" placeholder="Tu nombre" required></label>
@@ -242,7 +247,7 @@
       </div>
       <div class="data-bar">
         <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" class="data-bar__item"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a>
-        <a href="https://wa.me/56962044623?text=Hola%2C%20me%20gustar%C3%ADa%20contactarme%20con%20la%20ferreter%C3%ADa." target="_blank" rel="noopener" class="data-bar__item"><i class="fa-brands fa-whatsapp"></i><span>Contacto Whatsapp</span></a>
+        <a href="https://wa.me/56962044623?text=Hola%20Buenos%20dias%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" class="data-bar__item"><i class="fa-brands fa-whatsapp"></i><span>Contacto Whatsapp</span></a>
         <a href="#contacto" class="data-bar__item"><i class="fa-regular fa-envelope"></i><span>Formulario de contacto</span></a>
       </div>
       <div class="container branches">
@@ -303,7 +308,7 @@
         <p>Construyendo junto a usted desde 1978.</p>
         <div class="footer__social">
           <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://wa.me/56962044623?text=Hola%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos%20y%20horarios." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://wa.me/56962044623?text=Hola%20Buenos%20dias%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer__col">
@@ -333,7 +338,7 @@
   </footer>
 
   <!-- Botón flotante WhatsApp -->
-  <a class="whatsapp" href="https://wa.me/56962044623?text=Hola%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" aria-label="Cotizar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a class="whatsapp" href="https://wa.me/56962044623?text=Hola%20Buenos%20dias%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" aria-label="Cotizar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 
   <!-- ===== Pop-up de confirmación de cotización ===== -->
   <div class="toast-modal" id="quote-popup" role="dialog" aria-modal="true" aria-labelledby="quote-popup-title" hidden>
@@ -346,7 +351,7 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=5"></script>
-  <script type="module" src="js/promos.js?v=1"></script>
+  <script src="js/main.js?v=9"></script>
+  <script type="module" src="js/promos.js?v=4"></script>
 </body>
 </html>
