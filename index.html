@@ -1,24 +1,99 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ferretería Quirihue | Construyendo junto a usted</title>
   <meta name="description" content="Ferretería Quirihue: materiales de construcción y ferretería en Quirihue y Chillán desde 1978. Atención cercana, buenos precios y todo en un solo lugar.">
+  <meta name="theme-color" content="#ba1220">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:site_name" content="Ferretería Quirihue">
+  <meta property="og:title" content="Ferretería Quirihue | Construyendo junto a usted">
+  <meta property="og:description" content="Materiales de construcción y ferretería en Quirihue y Chillán desde 1978. Cotiza por WhatsApp.">
+  <script>document.documentElement.className = 'js';</script>
+
+  <!-- CSS crítico del skeleton loader: va en línea para que se pinte en el primer cuadro,
+       antes de que llegue cualquier otro archivo. Se oculta desde js/main.js. -->
+  <style>
+    .page-skeleton{position:fixed;inset:0;z-index:1000;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:opacity .35s ease,visibility .35s;animation:skAutoOcultar .3s 8s forwards}
+    .no-js .page-skeleton{display:none}
+    .page-skeleton.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+    @keyframes skAutoOcultar{to{opacity:0;visibility:hidden}}
+    .sk{display:block;border-radius:8px;background:#e7e8ea;background-image:linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255,255,255,.6) 50%,rgba(255,255,255,0) 100%);background-size:200% 100%;background-repeat:no-repeat;animation:skBrillo 1.3s ease-in-out infinite}
+    .sk--dark{background-color:rgba(255,255,255,.1);background-image:linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255,255,255,.14) 50%,rgba(255,255,255,0) 100%)}
+    @keyframes skBrillo{from{background-position:150% 0}to{background-position:-50% 0}}
+    .sk-topbar{height:36px;background:#3c4149;flex:none}
+    .sk-header{height:90px;background:#93969b;display:flex;align-items:center;justify-content:space-between;flex:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+    .sk-header__brand{align-self:stretch;display:flex;align-items:center;background:#ba1220;padding:0 40px 0 max(16px,calc((100vw - 1200px)/2))}
+    .sk-header__brand .sk{width:164px;height:58px;border-radius:4px;background-color:#fff}
+    .sk-header__nav{display:flex;gap:22px;padding-right:max(16px,calc((100vw - 1200px)/2))}
+    .sk-header__nav .sk{width:88px;height:14px}
+    .sk-hero{flex:none;height:560px;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:40px;padding:0 max(80px,calc((100vw - 1200px)/2));background:linear-gradient(120deg,#0d0d0f 0%,#1f2227 60%,#3c4149 100%)}
+    .sk-hero__text .sk{margin-bottom:18px}
+    .sk-hero__media{justify-self:center;width:min(100%,552px);aspect-ratio:552/218;border-radius:15px}
+    .sk-card{width:min(1200px,calc(100% - 32px));margin:-70px auto 0;position:relative;background:#3c4149;border-radius:15px;padding:34px 24px 40px;display:flex;flex-direction:column;align-items:center;gap:16px}
+    .sk-grid{width:min(1200px,calc(100% - 32px));margin:60px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+    .sk-grid .sk{height:170px;border-radius:15px}
+    @media (max-width:960px){.sk-hero{grid-template-columns:1fr;padding:40px 60px;justify-items:center;text-align:center}.sk-hero__text .sk{margin-inline:auto}.sk-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:860px){.sk-header__nav{display:none}}
+    @media (max-width:640px){.sk-header{height:76px}.sk-header__brand .sk{width:119px;height:42px}.sk-hero{height:600px;padding:30px 24px 110px}.sk-topbar{height:58px}}
+    @media (prefers-reduced-motion:reduce){.sk{animation:none}}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;500;600&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=12">
-  <link rel="icon" sizes="16x16" href="img/favicon-16x16.png">
-  <link rel="icon" sizes="32x32" href="img/favicon-32x32.png">
-  <link rel="icon" sizes="48x48" href="img/favicon-48x48.png">
+  <link rel="preconnect" href="https://firestore.googleapis.com">
+  <!-- Íconos locales (subconjunto) -->
+  <link rel="preload" href="fonts/fa-solid.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="fonts/fa-brands.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="css/iconos.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=13">
+  <link rel="stylesheet" href="css/chatbot.css?v=1">
+  <!-- Google Fonts sin bloquear el render (el texto se ve de inmediato con la fuente del sistema) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@300;500;600&family=Roboto:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@300;500;600&family=Roboto:wght@400;500;700;900&display=swap"></noscript>
+  <!-- Firebase (promociones): se descarga en paralelo en vez de esperar a promos.js -->
+  <link rel="modulepreload" href="js/firebase-config.js">
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-lite.js">
+
   <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-  <link rel="icon" sizes="192x192" href="img/android-chrome-192x192.png">
-  <link rel="icon" sizes="512x512" href="img/android-chrome-512x512.png">
+
+  <script src="js/main.js?v=10" defer></script>
+  <script type="module" src="js/promos.js?v=5"></script>
+  <script src="js/chatbot.js?v=1" defer></script>
 </head>
 <body>
+
+  <!-- ===== SKELETON LOADER (se muestra mientras carga la página) ===== -->
+  <div class="page-skeleton" id="page-skeleton" role="status" aria-live="polite">
+    <span class="sr-only">Cargando Ferretería Quirihue…</span>
+    <div class="sk-topbar" aria-hidden="true"></div>
+    <div class="sk-header" aria-hidden="true">
+      <div class="sk-header__brand"><span class="sk"></span></div>
+      <div class="sk-header__nav"><span class="sk sk--dark"></span><span class="sk sk--dark"></span><span class="sk sk--dark"></span><span class="sk sk--dark"></span><span class="sk sk--dark"></span><span class="sk sk--dark"></span></div>
+    </div>
+    <div class="sk-hero" aria-hidden="true">
+      <div class="sk-hero__text">
+        <span class="sk sk--dark" style="width:180px;height:14px"></span>
+        <span class="sk sk--dark" style="width:min(460px,80vw);height:52px"></span>
+        <span class="sk sk--dark" style="width:min(320px,60vw);height:52px"></span>
+        <span class="sk sk--dark" style="width:min(420px,75vw);height:16px"></span>
+        <span class="sk sk--dark" style="width:150px;height:46px;border-radius:50px;margin-top:28px"></span>
+      </div>
+      <span class="sk sk--dark sk-hero__media"></span>
+    </div>
+    <div class="sk-card" aria-hidden="true">
+      <span class="sk sk--dark" style="width:min(380px,70vw);height:14px"></span>
+      <span class="sk sk--dark" style="width:min(640px,80vw);height:38px"></span>
+      <span class="sk sk--dark" style="width:230px;height:46px;border-radius:50px"></span>
+    </div>
+    <div class="sk-grid" aria-hidden="true"><span class="sk"></span><span class="sk"></span><span class="sk"></span><span class="sk"></span></div>
+  </div>
 
   <!-- ===== BARRA SUPERIOR ===== -->
   <div class="topbar">
@@ -28,7 +103,6 @@
       <a href="https://wa.me/56962044623?text=Hola%20Buenos%20dias%2C%20necesito%20ayuda%20con%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Contacto de Whatsapp</a>
       <span class="topbar__social">
         <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
       </span>
     </div>
   </div>
@@ -36,7 +110,7 @@
   <!-- ===== HEADER / NAVEGACIÓN ===== -->
   <header class="header">
     <a href="#inicio" class="header__brand">
-      <span class="header__logo"><img src="img/logo-header.jpg?v=3" alt="Ferretería Quirihue - construyendo junto a usted"></span>
+      <span class="header__logo"><img src="img/logo-header.webp" width="396" height="140" alt="Ferretería Quirihue - construyendo junto a usted"></span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
     <nav class="nav">
@@ -59,34 +133,7 @@
           <p>Todo lo que necesitas en herramientas y materiales de ferretería, en un solo lugar.</p>
           <a href="#catalogo" class="btn btn--red">Ver catálogo</a>
         </div>
-        <div class="slide__media slide__media--logo"><img src="img/logo.jpg" alt=""></div>
-      </div>
-      <div class="slide">
-        <div class="slide__content">
-          <p class="slide__kicker">Oferta · Hasta el 31 de octubre</p>
-          <h2>2x Silicona Acrílica <span>Agorex 600</span></h2>
-          <p>Blanca 280 ml a solo <strong>$11.000</strong>. Precio normal $13.000.</p>
-          <a href="#promociones" class="btn btn--red">Ver promociones</a>
-        </div>
-        <div class="slide__media"><img src="img/promos/promo1.jpg" alt="Oferta 2x Silicona Acrílica Agorex 600"></div>
-      </div>
-      <div class="slide">
-        <div class="slide__content">
-          <p class="slide__kicker">Oferta · Hasta agotar stock</p>
-          <h2>No Más Clavos <span>Agorex</span></h2>
-          <p>Original 200 cc a <strong>$4.000 c/u</strong>.</p>
-          <a href="#promociones" class="btn btn--red">Ver promociones</a>
-        </div>
-        <div class="slide__media"><img src="img/promos/promo2.png" alt="Oferta No Más Clavos Agorex"></div>
-      </div>
-      <div class="slide">
-        <div class="slide__content">
-          <p class="slide__kicker">Oferta · Hasta el 31 de octubre</p>
-          <h2>2x Sikaflex <span>11 FC</span></h2>
-          <p>300 ml a <strong>$18.500</strong>. Precio normal $24.000.</p>
-          <a href="#promociones" class="btn btn--red">Ver promociones</a>
-        </div>
-        <div class="slide__media"><img src="img/promos/promo3.jpg" alt="Oferta 2x Sikaflex 11 FC"></div>
+        <div class="slide__media slide__media--logo"><img src="img/logo.webp" width="1000" height="342" alt="" fetchpriority="high"></div>
       </div>
       <button class="hero__arrow hero__arrow--prev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
       <button class="hero__arrow hero__arrow--next" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
@@ -172,10 +219,11 @@
         <h2 class="title">Promociones <span>disponibles</span></h2>
         <div class="promos-carousel" aria-roledescription="carrusel" aria-label="Promociones disponibles">
           <button type="button" class="promos-carousel__btn promos-carousel__btn--prev" aria-label="Promociones anteriores"><i class="fa-solid fa-chevron-left"></i></button>
-          <div class="promos">
-            <figure class="promo"><img src="img/promos/promo1.jpg" alt="Oferta 2x Silicona Acrílica Agorex 600 blanca 280 ml a $11.000, precio normal $13.000, hasta el 31 de octubre" loading="lazy"></figure>
-            <figure class="promo"><img src="img/promos/promo2.png" alt="Oferta No Más Clavos original Agorex 200 cc a $4.000 c/u, hasta agotar stock" loading="lazy"></figure>
-            <figure class="promo"><img src="img/promos/promo3.jpg" alt="Oferta 2x Sikaflex 11 FC 300 ml a $18.500, precio normal $24.000, hasta el 31 de octubre" loading="lazy"></figure>
+          <div class="promos" aria-busy="true">
+            <!-- Tarjetas skeleton: se ven mientras se cargan las promociones desde el panel (Firebase) -->
+            <figure class="promo promo--skeleton" aria-hidden="true"><span class="sk"></span></figure>
+            <figure class="promo promo--skeleton" aria-hidden="true"><span class="sk"></span></figure>
+            <figure class="promo promo--skeleton" aria-hidden="true"><span class="sk"></span></figure>
           </div>
           <button type="button" class="promos-carousel__btn promos-carousel__btn--next" aria-label="Promociones siguientes"><i class="fa-solid fa-chevron-right"></i></button>
           <div class="promos-carousel__dots" aria-hidden="true"></div>
@@ -220,22 +268,22 @@
       </div>
       <div class="brands">
         <div class="brands__track">
-          <div class="brand"><img src="img/marcas/marca1.png" alt="Truper"></div>
-          <div class="brand"><img src="img/marcas/marca2.png" alt="Sika"></div>
-          <div class="brand"><img src="img/marcas/marca3.png" alt="Marca"></div>
-          <div class="brand"><img src="img/marcas/marca4.png" alt="Stanley"></div>
-          <div class="brand"><img src="img/marcas/marca5.png" alt="Tajamar"></div>
-          <div class="brand"><img src="img/marcas/marca6.png" alt="Ceresita"></div>
-          <div class="brand"><img src="img/marcas/marca7.png" alt="Alcazar"></div>
-          <div class="brand"><img src="img/marcas/marca8.png" alt="Yunque"></div>
-          <div class="brand"><img src="img/marcas/marca9.png" alt="Dideval"></div>
-          <div class="brand"><img src="img/marcas/marca10.png" alt="Odis"></div>
-          <div class="brand"><img src="img/marcas/marca11.png" alt="Hoffens"></div>
-          <div class="brand"><img src="img/marcas/marca12.png" alt="Inchalam"></div>
-          <div class="brand"><img src="img/marcas/marca13.png" alt="Química Universal"></div>
-          <div class="brand"><img src="img/marcas/marca14.png" alt="Marca"></div>
-          <div class="brand"><img src="img/marcas/marca15.png" alt="Hela"></div>
-          <div class="brand"><img src="img/marcas/marca16.png" alt="Fanaloza"></div>
+          <div class="brand"><img src="img/marcas/marca1.webp" width="190" height="190" alt="Truper" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca2.webp" width="187" height="190" alt="Sika" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca3.webp" width="190" height="190" alt="Marca" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca4.webp" width="189" height="190" alt="Stanley" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca5.webp" width="330" height="168" alt="Tajamar" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca6.webp" width="202" height="190" alt="Ceresita" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca7.webp" width="189" height="190" alt="Alcazar" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca8.webp" width="330" height="151" alt="Yunque" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca9.webp" width="197" height="175" alt="Dideval" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca10.webp" width="199" height="190" alt="Odis" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca11.webp" width="208" height="190" alt="Hoffens" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca12.webp" width="330" height="118" alt="Inchalam" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca13.webp" width="196" height="190" alt="Química Universal" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca14.webp" width="199" height="190" alt="Marca" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca15.webp" width="189" height="190" alt="Hela" loading="lazy" decoding="async"></div>
+          <div class="brand"><img src="img/marcas/marca16.webp" width="211" height="190" alt="Fanaloza" loading="lazy" decoding="async"></div>
         </div>
       </div>
     </section>
@@ -304,7 +352,7 @@
   <footer class="footer">
     <div class="footer__card">
       <div class="footer__col">
-        <span class="footer__logo"><img src="img/logo.jpg" alt="Ferretería Quirihue"></span>
+        <span class="footer__logo"><img src="img/logo-footer.webp" width="440" height="150" alt="Ferretería Quirihue" loading="lazy" decoding="async"></span>
         <p>Construyendo junto a usted desde 1978.</p>
         <div class="footer__social">
           <a href="https://www.facebook.com/Ferreteria.Quirihue/?locale=es_LA" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -321,17 +369,8 @@
         </ul>
       </div>
       <div class="footer__col">
-        <h4>Categorías</h4>
-        <ul class="footer__links">
-          <li><a href="#catalogo">Herramientas</a></li>
-          <li><a href="#catalogo">Construcción</a></li>
-          <li><a href="#catalogo">Pinturas</a></li>
-        </ul>
-      </div>
-      <div class="footer__col">
         <h4>Ferretería Quirihue</h4>
         <p>José Joaquín Pérez 429, Quirihue.<br>Sargento Aldea 913, Chillán.<br>Región de Ñuble – Chile</p>
-        <p>WhatsApp<br>+56 9 6204 4623</p>
       </div>
     </div>
     <div class="footer__bottom"><span>©<span id="year"></span>. Ferretería Quirihue</span></div>
@@ -351,7 +390,44 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=9"></script>
-  <script type="module" src="js/promos.js?v=4"></script>
+
+  <!-- ===== Promociones de respaldo =====
+       Solo se usan si Firebase no responde o aún no hay promociones cargadas en el panel.
+       Al estar dentro de <template>, sus imágenes NO se descargan si el panel funciona.
+       (El botón "Importar" del panel lee las imágenes de #promos-respaldo.) -->
+  <template id="hero-respaldo">
+      <div class="slide">
+        <div class="slide__content">
+          <p class="slide__kicker">Oferta · Hasta el 31 de octubre</p>
+          <h2>2x Silicona Acrílica <span>Agorex 600</span></h2>
+          <p>Blanca 280 ml a solo <strong>$11.000</strong>. Precio normal $13.000.</p>
+          <a href="#promociones" class="btn btn--red">Ver promociones</a>
+        </div>
+        <div class="slide__media"><img src="img/promos/promo1.webp" width="900" height="900" alt="Oferta 2x Silicona Acrílica Agorex 600"></div>
+      </div>
+      <div class="slide">
+        <div class="slide__content">
+          <p class="slide__kicker">Oferta · Hasta agotar stock</p>
+          <h2>No Más Clavos <span>Agorex</span></h2>
+          <p>Original 200 cc a <strong>$4.000 c/u</strong>.</p>
+          <a href="#promociones" class="btn btn--red">Ver promociones</a>
+        </div>
+        <div class="slide__media"><img src="img/promos/promo2.webp" width="900" height="900" alt="Oferta No Más Clavos Agorex"></div>
+      </div>
+      <div class="slide">
+        <div class="slide__content">
+          <p class="slide__kicker">Oferta · Hasta el 31 de octubre</p>
+          <h2>2x Sikaflex <span>11 FC</span></h2>
+          <p>300 ml a <strong>$18.500</strong>. Precio normal $24.000.</p>
+          <a href="#promociones" class="btn btn--red">Ver promociones</a>
+        </div>
+        <div class="slide__media"><img src="img/promos/promo3.webp" width="900" height="900" alt="Oferta 2x Sikaflex 11 FC"></div>
+      </div>
+  </template>
+  <template id="promos-respaldo">
+            <figure class="promo"><img src="img/promos/promo1.webp" width="900" height="900" alt="Oferta 2x Silicona Acrílica Agorex 600 blanca 280 ml a $11.000, precio normal $13.000, hasta el 31 de octubre" loading="lazy"></figure>
+            <figure class="promo"><img src="img/promos/promo2.webp" width="900" height="900" alt="Oferta No Más Clavos original Agorex 200 cc a $4.000 c/u, hasta agotar stock" loading="lazy"></figure>
+            <figure class="promo"><img src="img/promos/promo3.webp" width="900" height="900" alt="Oferta 2x Sikaflex 11 FC 300 ml a $18.500, precio normal $24.000, hasta el 31 de octubre" loading="lazy"></figure>
+  </template>
 </body>
 </html>

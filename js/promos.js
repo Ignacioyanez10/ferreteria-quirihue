@@ -2,13 +2,23 @@
 // Lee las promociones activas desde Firestore (panel de administración) y las muestra en:
 //   1) el carrusel principal (#inicio), después de la diapositiva de bienvenida
 //   2) la sección "Promociones disponibles" (#promociones)
+// Mientras se cargan, la sección muestra tarjetas "skeleton" (ver index.html).
 // Usa la versión "lite" de Firestore (peticiones simples, más liviana y compatible con
-// bloqueadores de anuncios). Si algo falla o aún no hay promociones cargadas en el panel,
-// se mantienen las promociones escritas en el HTML.
+// bloqueadores de anuncios). Si algo falla, tarda demasiado o aún no hay promociones
+// cargadas en el panel, se usan las promociones de respaldo (<template> en index.html).
 import { firebaseConfig, FIREBASE_SDK, firebaseListo, DATABASE_ID } from './firebase-config.js';
+
+// Si Firebase no responde en este tiempo se muestran las promociones de respaldo
+// (si la respuesta llega después, igual se reemplazan por las del panel).
+const ESPERA_MAXIMA_MS = 6000;
 
 const grilla = document.querySelector('#promociones .promos');
 const hero = document.querySelector('.hero');
+const respaldoHero = document.getElementById('hero-respaldo');
+const respaldoPromos = document.getElementById('promos-respaldo');
+
+let mostroPanel = false;   // ya se mostraron las promociones de Firestore
+let mostroRespaldo = false;
 
 function crearDiapositiva(promo) {
   const slide = document.createElement('div');
@@ -32,6 +42,7 @@ function crearDiapositiva(promo) {
   const media = document.createElement('div');
   media.className = 'slide__media';
   const img = document.createElement('img');
+  img.decoding = 'async';
   img.src = promo.imagen;
   img.alt = promo.descripcion || 'Promoción Ferretería Quirihue';
   media.append(img);
@@ -44,47 +55,75 @@ function crearTarjeta(promo) {
   const fig = document.createElement('figure');
   fig.className = 'promo';
   const img = document.createElement('img');
+  img.decoding = 'async';
+  img.loading = 'lazy';
   img.src = promo.imagen;
   img.alt = promo.descripcion || 'Promoción Ferretería Quirihue';
-  img.loading = 'lazy';
   fig.append(img);
   return fig;
 }
 
-async function cargarPromos() {
-  if (!firebaseListo) return;
-  const { initializeApp } = await import(`${FIREBASE_SDK}/firebase-app.js`);
-  const { getFirestore, collection, getDocs } = await import(`${FIREBASE_SDK}/firebase-firestore-lite.js`);
-
-  const db = getFirestore(initializeApp(firebaseConfig, 'promos-web'), DATABASE_ID);
-  const snap = await getDocs(collection(db, 'promos'));
-  if (snap.empty) return; // todavía no se cargan promociones desde el panel
-
-  const activas = snap.docs.map(d => d.data())
-    .filter(p => p.activa === true && typeof p.imagen === 'string' && p.imagen.startsWith('data:image/'))
-    .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
-
-  // 1) Sección de promociones
-  if (grilla) {
-    grilla.replaceChildren();
-    if (activas.length) {
-      activas.forEach(p => grilla.append(crearTarjeta(p)));
-    } else {
-      const aviso = document.createElement('p');
-      aviso.className = 'promos__vacio';
-      aviso.textContent = 'Pronto tendremos nuevas promociones. ¡Visítanos o escríbenos por WhatsApp!';
-      grilla.append(aviso);
-    }
-  }
-
-  // 2) Carrusel principal: se deja la primera diapositiva (bienvenida) y se reemplazan las de ofertas
-  if (hero) {
-    const diapositivas = hero.querySelectorAll('.slide');
-    diapositivas.forEach((s, i) => { if (i > 0) s.remove(); });
-    const flecha = hero.querySelector('.hero__arrow--prev');
-    activas.forEach(p => hero.insertBefore(crearDiapositiva(p), flecha));
-    if (typeof window.reiniciarCarrusel === 'function') window.reiniciarCarrusel();
-  }
+// Reemplaza las diapositivas de oferta del carrusel (se conserva la de bienvenida)
+function ponerDiapositivas(nodos) {
+  if (!hero) return;
+  hero.querySelectorAll('.slide').forEach((s, i) => { if (i > 0) s.remove(); });
+  const flecha = hero.querySelector('.hero__arrow--prev');
+  nodos.forEach(n => hero.insertBefore(n, flecha));
+  if (typeof window.reiniciarCarrusel === 'function') window.reiniciarCarrusel();
 }
 
-cargarPromos().catch(err => console.warn('No se pudieron cargar las promociones:', err));
+function ponerTarjetas(nodos) {
+  if (!grilla) return;
+  grilla.replaceChildren(...nodos);
+  grilla.removeAttribute('aria-busy');
+}
+
+function usarRespaldo() {
+  if (mostroPanel || mostroRespaldo) return;
+  mostroRespaldo = true;
+  if (respaldoPromos) ponerTarjetas([...respaldoPromos.content.cloneNode(true).children]);
+  if (respaldoHero) ponerDiapositivas([...respaldoHero.content.cloneNode(true).children]);
+}
+
+function mostrarPanel(activas) {
+  mostroPanel = true;
+  if (activas.length) {
+    ponerTarjetas(activas.map(crearTarjeta));
+  } else {
+    const aviso = document.createElement('p');
+    aviso.className = 'promos__vacio';
+    aviso.textContent = 'Pronto tendremos nuevas promociones. ¡Visítanos o escríbenos por WhatsApp!';
+    ponerTarjetas([aviso]);
+  }
+  ponerDiapositivas(activas.map(crearDiapositiva));
+}
+
+async function cargarPromos() {
+  if (!firebaseListo) return usarRespaldo();
+  const [{ initializeApp }, { getFirestore, collection, query, where, limit, getDocs }] = await Promise.all([
+    import(`${FIREBASE_SDK}/firebase-app.js`),
+    import(`${FIREBASE_SDK}/firebase-firestore-lite.js`)
+  ]);
+
+  const db = getFirestore(initializeApp(firebaseConfig, 'promos-web'), DATABASE_ID);
+  const promosRef = collection(db, 'promos');
+
+  // Solo se descargan las promociones activas: las ocultas (con su imagen) no viajan al visitante.
+  const snap = await getDocs(query(promosRef, where('activa', '==', true)));
+
+  const activas = snap.docs.map(d => d.data())
+    .filter(p => typeof p.imagen === 'string' && p.imagen.startsWith('data:image/'))
+    .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
+
+  if (!activas.length) {
+    // ¿No hay activas o el panel todavía no tiene ninguna promoción?
+    const alguna = await getDocs(query(promosRef, limit(1)));
+    if (alguna.empty) return usarRespaldo();
+  }
+  mostrarPanel(activas);
+}
+
+const limite = setTimeout(usarRespaldo, ESPERA_MAXIMA_MS);
+cargarPromos()
+  .catch(err => { console.warn('No se pudieron cargar las promociones:', err); usarRespaldo(); })
+  .finally(() => clearTimeout(limite));

@@ -26,3 +26,10 @@ La seguridad no viene de que la dirección esté oculta. Viene del login de Fire
 - Las imágenes se reducen automáticamente a un máximo de 1200 px y se guardan en Firestore. Así funciona con el plan gratuito de Firebase (Spark), que no pide tarjeta.
 - Si Firebase no responde, la web muestra las promociones escritas en `index.html`.
 - Para probar en el computador hay que abrir la web con un servidor local, por ejemplo la extensión *Live Server* de VS Code. Abriendo el `index.html` con doble clic, el panel no funciona.
+
+## Rendimiento (optimización 13-11-2026)
+- **Imágenes:** la web usa las versiones `.webp` (logos, marcas y promociones). Los `.jpg`/`.png` originales se conservan solo como respaldo. Si agregas una marca nueva, súbela en WebP de unos 330×190 px como máximo.
+- **Íconos:** ya no se usa el CSS de Font Awesome del CDN; `css/iconos.css` + `fonts/` contienen solo los 26 íconos que usa la web. Para agregar uno, regenera las fuentes con `pyftsubset` (fontTools) incluyendo su código Unicode y agrega su línea `.fa-nombre::before` en `css/iconos.css`. El panel `/gestion-fq/` sigue usando el CDN.
+- **Skeleton loader:** el CSS está en línea en el `<head>` de `index.html` y se oculta desde `js/main.js` (máximo 2,5 s). Las tarjetas skeleton de promociones se reemplazan cuando responde Firebase (máximo 6 s; después se usan las promociones de respaldo).
+- **Promociones de respaldo:** están dentro de `<template id="promos-respaldo">` y `<template id="hero-respaldo">` en `index.html`. El botón *Importar* del panel lee de ahí.
+- **No subir a la web:** las carpetas `src/`, `Claude outputs/` y `_respaldo_2026-11-13/` (copia de los archivos antes de optimizar).

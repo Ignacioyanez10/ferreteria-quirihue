@@ -279,7 +279,10 @@ $('#btn-importar').addEventListener('click', async () => {
   msg($('#msg-lista'), 'Importando…');
   try {
     const html = await (await fetch('../index.html', { cache: 'no-store' })).text();
-    const imgs = new DOMParser().parseFromString(html, 'text/html').querySelectorAll('#promociones .promos img');
+    const pagina = new DOMParser().parseFromString(html, 'text/html');
+    // Las promociones de respaldo están en un <template> (no se descargan si el panel funciona)
+    const respaldo = pagina.querySelector('#promos-respaldo');
+    const imgs = respaldo ? respaldo.content.querySelectorAll('img') : pagina.querySelectorAll('#promociones .promos img');
     let orden = 0;
     for (const im of imgs) {
       const src = new URL(im.getAttribute('src'), new URL('../', location.href)).href;

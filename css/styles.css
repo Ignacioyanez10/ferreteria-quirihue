@@ -45,6 +45,7 @@ body {
 
 img {
   max-width: 100%;
+  height: auto; /* con width/height en el HTML evita deformaciones y saltos de diseño (CLS) */
   display: block;
 }
 
@@ -346,6 +347,12 @@ ul {
 
 .hero__dots button.is-active {
   background: var(--rojo);
+}
+
+/* Con una sola diapositiva no se muestran flechas ni puntos */
+.hero[data-slides="1"] .hero__arrow,
+.hero[data-slides="1"] .hero__dots {
+  display: none;
 }
 
 /* ===== Tarjeta destacada oscura (sobre el hero) ===== */
@@ -1122,10 +1129,10 @@ ul {
   background: var(--pizarra);
   color: #e6e6e6;
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr 1.1fr;
+  grid-template-columns: 1.2fr 1fr 1.1fr;
   gap: 40px;
   padding: 50px max(30px, 4vw);
-  font-family: "Lato", "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 .footer__logo {
@@ -1439,3 +1446,24 @@ ul {
 
 /* Mensaje cuando no hay promociones activas (panel admin) */
 .promos__vacio { flex: 1 0 100%; text-align: center; color: var(--gris-texto); padding: 30px 16px; }
+
+/* =========================================================
+   Skeleton de tarjetas de promoción (mientras cargan desde el panel)
+   Las clases .sk y la animación skBrillo están en el <style> crítico de index.html
+   ========================================================= */
+.promo--skeleton {
+  box-shadow: var(--sombra-suave);
+  pointer-events: none;
+}
+.promo--skeleton .sk {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+.promo--skeleton:hover { transform: none; }
+
+/* Mientras una imagen de promoción o marca termina de llegar, se ve un fondo suave */
+.promo { background-color: #eceded; }
+
+
+

@@ -1,3 +1,28 @@
+// ===== Skeleton loader de la página =====
+// Se oculta cuando el contenido principal está listo: HTML procesado + imagen del carrusel
+// + fuentes. Nunca espera más de MAX_SKELETON_MS (mapas, marcas y promociones siguen
+// cargando por detrás sin bloquear). Si este archivo no cargara, el CSS lo oculta solo a los 8 s.
+const MAX_SKELETON_MS = 2500;
+(() => {
+  const sk = document.getElementById('page-skeleton');
+  if (!sk) return;
+  const ocultar = () => {
+    if (sk.classList.contains('is-hidden')) return;
+    sk.classList.add('is-hidden');
+    sk.addEventListener('transitionend', () => sk.remove(), { once: true });
+    setTimeout(() => sk.remove(), 600);
+  };
+  const imgHero = document.querySelector('.hero .slide.is-active img');
+  const imagenLista = !imgHero || imgHero.complete ? Promise.resolve()
+    : (imgHero.decode ? imgHero.decode() : new Promise(r => imgHero.addEventListener('load', r, { once: true }))).catch(() => {});
+  const fuentes = document.fonts ? document.fonts.ready : Promise.resolve();
+  Promise.race([
+    Promise.all([imagenLista, fuentes]),
+    new Promise(r => setTimeout(r, MAX_SKELETON_MS))
+  ]).then(() => requestAnimationFrame(ocultar));
+})();
+
+
 // ===== Menú móvil =====
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.nav');
@@ -10,6 +35,7 @@ nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.cla
 // ===== Carrusel principal =====
 // Se puede reiniciar con window.reiniciarCarrusel() cuando se agregan diapositivas
 // (lo usa js/promos.js para mostrar las promociones del panel de administración).
+const heroEl = document.querySelector('.hero');
 const dotsBox = document.querySelector('.hero__dots');
 let slides = [];
 let dots = [];
@@ -17,6 +43,7 @@ let current = 0;
 let timer;
 
 function goTo(i) {
+  if (slides.length < 2) return;
   slides[current].classList.remove('is-active');
   dots[current].classList.remove('is-active');
   current = (i + slides.length) % slides.length;
@@ -25,8 +52,11 @@ function goTo(i) {
 }
 function restart() {
   clearInterval(timer);
+  // Avance automático cada 6 s (se pausa solo mientras la pestaña está en segundo plano)
+  if (slides.length < 2 || document.hidden) return;
   timer = setInterval(() => goTo(current + 1), 6000);
 }
+document.addEventListener('visibilitychange', restart);
 function initCarrusel() {
   slides = [...document.querySelectorAll('.hero .slide')];
   dotsBox.replaceChildren();
@@ -38,6 +68,7 @@ function initCarrusel() {
     dotsBox.appendChild(dot);
   });
   dots = [...dotsBox.children];
+  heroEl.dataset.slides = slides.length;
   current = 0;
   dots[0].classList.add('is-active');
   restart();
@@ -112,7 +143,12 @@ window.reiniciarCarrusel = initCarrusel;
   prev.addEventListener('click', () => irA(indiceActual() - 1));
   next.addEventListener('click', () => irA(indiceActual() + 1));
   pista.addEventListener('scroll', () => requestAnimationFrame(actualizar), { passive: true });
-  window.addEventListener('resize', actualizar);
+  let resizePendiente = false;
+  window.addEventListener('resize', () => {
+    if (resizePendiente) return;
+    resizePendiente = true;
+    requestAnimationFrame(() => { resizePendiente = false; actualizar(); });
+  }, { passive: true });
   // Se actualiza cuando js/promos.js carga las promociones del panel o cuando cargan las imágenes
   new MutationObserver(() => { pista.scrollLeft = 0; ponerFondos(); actualizar(); }).observe(pista, { childList: true });
   pista.addEventListener('load', actualizar, true);
@@ -121,11 +157,17 @@ window.reiniciarCarrusel = initCarrusel;
 })();
 
 // ===== Cinta de marcas: duplicar logos para que el desplazamiento sea continuo =====
+// (se clonan los nodos en vez de usar innerHTML +=, así no se vuelve a procesar todo el HTML)
 const track = document.querySelector('.brands__track');
-track.innerHTML += track.innerHTML;
-track.querySelectorAll('img').forEach((img, i, all) => {
-  if (i >= all.length / 2) img.setAttribute('aria-hidden', 'true');
-});
+{
+  const copia = document.createDocumentFragment();
+  track.querySelectorAll('.brand').forEach(b => {
+    const c = b.cloneNode(true);
+    c.setAttribute('aria-hidden', 'true');
+    copia.append(c);
+  });
+  track.append(copia);
+}
 
 // ===== Pestañas de sucursales =====
 document.querySelectorAll('.branch-tab').forEach(tab => {
